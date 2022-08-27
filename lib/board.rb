@@ -21,7 +21,19 @@ class Board
     true
   end
 
+  def horizontal_win?(color)
+    won = false
+    board.each do |row|
+      won = true if row.each_cons(4).any? { |fours| same_color?(fours, color) }
+    end
+    won
+  end
+
   private
+
+  def same_color?(array, color)
+    array.all? { |e| e == color }
+  end
 
   def valid_column?(column)
     return false unless column.instance_of?(Integer)

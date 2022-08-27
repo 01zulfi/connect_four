@@ -78,4 +78,113 @@ describe Board do
       end
     end
   end
+
+  describe '#horizontal_win?' do
+    subject(:board_horizontal) { described_class.new }
+
+    context 'when no move is played' do
+      it 'red does not win' do
+        won = board_horizontal.horizontal_win?('red')
+        expect(won).to be false
+      end
+
+      it 'black does not win' do
+        won = board_horizontal.horizontal_win?('black')
+        expect(won).to be false
+      end
+    end
+
+    context 'when row has only red (or black) markers' do
+      context 'when red has three or less consecutive markers' do
+        context 'in any row' do
+          it 'returns false' do
+            board_horizontal.place_color(0, 'red')
+            board_horizontal.place_color(1, 'red')
+            board_horizontal.place_color(2, 'red')
+            won = board_horizontal.horizontal_win?('red')
+            expect(won).to be false
+          end
+        end
+
+        context 'in any row x2' do
+          it 'returns false' do
+            board_horizontal.place_color(4, 'red')
+            board_horizontal.place_color(5, 'red')
+            won = board_horizontal.horizontal_win?('red')
+            expect(won).to be false
+          end
+        end
+      end
+
+      context 'when red has four consecutive markers' do
+        context 'in any row' do
+          it 'returns true' do
+            board_horizontal.place_color(0, 'red')
+            board_horizontal.place_color(1, 'red')
+            board_horizontal.place_color(2, 'red')
+            board_horizontal.place_color(3, 'red')
+            won = board_horizontal.horizontal_win?('red')
+            expect(won).to be true
+          end
+        end
+
+        context 'in any row x2' do
+          it 'returns true' do
+            board_horizontal.place_color(3, 'red')
+            board_horizontal.place_color(4, 'red')
+            board_horizontal.place_color(5, 'red')
+            board_horizontal.place_color(6, 'red')
+            won = board_horizontal.horizontal_win?('red')
+            expect(won).to be true
+          end
+        end
+      end
+    end
+
+    context 'when row has red & black markers' do
+      context 'in order rbrrbb' do
+        before do
+          board_horizontal.place_color(0, 'red')
+          board_horizontal.place_color(1, 'black')
+          board_horizontal.place_color(2, 'red')
+          board_horizontal.place_color(3, 'black')
+          board_horizontal.place_color(4, 'red')
+          board_horizontal.place_color(5, 'black')
+          board_horizontal.place_color(6, 'black')
+        end
+
+        it 'red does not win' do
+          won = board_horizontal.horizontal_win?('red')
+          expect(won).to be false
+        end
+
+        it 'black does not win' do
+          won = board_horizontal.horizontal_win?('black')
+          expect(won).to be false
+        end
+      end
+
+      context 'in order bbbrrrr' do
+        before do
+          board_horizontal.place_color(0, 'black')
+          board_horizontal.place_color(1, 'black')
+          board_horizontal.place_color(2, 'black')
+          board_horizontal.place_color(3, 'red')
+          board_horizontal.place_color(4, 'red')
+          board_horizontal.place_color(5, 'red')
+          board_horizontal.place_color(6, 'red')
+        end
+
+        it 'red wins' do
+          won = board_horizontal.horizontal_win?('red')
+          expect(won).to be true
+        end
+
+        it 'black does not win' do
+          won = board_horizontal.horizontal_win?('black')
+          expect(won).to be false
+        end
+      end
+    end
+  end
 end
