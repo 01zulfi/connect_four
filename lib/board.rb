@@ -24,6 +24,10 @@ class Board
     true
   end
 
+  def won?(color)
+    horizontal_win?(color) || vertical_win?(color) || diagonal_win?(color)
+  end
+
   def horizontal_win?(color)
     won = false
     won = true if rows_length_four(board).any? { |fours| same_color?(fours, color) }

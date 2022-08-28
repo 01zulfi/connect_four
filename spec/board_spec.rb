@@ -414,4 +414,53 @@ describe Board do
       end
     end
   end
+
+  describe '#won' do
+    subject(:board_won) { described_class.new }
+
+    before do
+      allow(board_won).to receive(:horizontal_win?).and_return(false)
+      allow(board_won).to receive(:vertical_win?).and_return(false)
+      allow(board_won).to receive(:diagonal_win?).and_return(false)
+    end
+
+    context 'when red (or black) has h,v,d win' do
+      it 'returns true' do
+        allow(board_won).to receive(:horizontal_win?).and_return(true)
+        allow(board_won).to receive(:vertical_win?).and_return(true)
+        allow(board_won).to receive(:diagonal_win?).and_return(true)
+        expect(board_won).to be_won('red')
+      end
+    end
+
+    context 'when red (or black) has no win' do
+      it 'returns false' do
+        expect(board_won).to_not be_won('red')
+      end
+    end
+
+    context 'when red (or black) has h,v win' do
+      it 'returns true' do
+        allow(board_won).to receive(:horizontal_win?).and_return(true)
+        allow(board_won).to receive(:vertical_win?).and_return(true)
+        expect(board_won).to be_won('red')
+      end
+    end
+
+    context 'when red (or black) has h,d win' do
+      it 'returns true' do
+        allow(board_won).to receive(:horizontal_win?).and_return(true)
+        allow(board_won).to receive(:diagonal_win?).and_return(true)
+        expect(board_won).to be_won('red')
+      end
+    end
+
+    context 'when red (or black) has v,d win' do
+      it 'returns true' do
+        allow(board_won).to receive(:vertical_win?).and_return(true)
+        allow(board_won).to receive(:diagonal_win?).and_return(true)
+        expect(board_won).to be_won('red')
+      end
+    end
+  end
 end
