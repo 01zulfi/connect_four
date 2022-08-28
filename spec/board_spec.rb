@@ -187,4 +187,110 @@ describe Board do
       end
     end
   end
+
+  describe '#vertical_win?' do
+    subject(:board_vertical) { described_class.new }
+
+    context 'when no move is played' do
+      it 'red does not win' do
+        won = board_vertical.vertical_win?('red')
+        expect(won).to be false
+      end
+
+      it 'black does not win' do
+        won = board_vertical.vertical_win?('black')
+        expect(won).to be false
+      end
+    end
+
+    context 'when column has only red (or black) markers' do
+      context 'when red has three or less consecutive markers' do
+        context 'in any column' do
+          it 'returns false' do
+            board_vertical.place_color(0, 'red')
+            board_vertical.place_color(0, 'red')
+            board_vertical.place_color(0, 'red')
+            won = board_vertical.vertical_win?('red')
+            expect(won).to be false
+          end
+        end
+
+        context 'in any column x2' do
+          it 'returns false' do
+            board_vertical.place_color(3, 'red')
+            board_vertical.place_color(3, 'red')
+            won = board_vertical.vertical_win?('red')
+            expect(won).to be false
+          end
+        end
+      end
+
+      context 'when red has four consecutive markers' do
+        context 'in any column' do
+          it 'returns true' do
+            board_vertical.place_color(0, 'red')
+            board_vertical.place_color(0, 'red')
+            board_vertical.place_color(0, 'red')
+            board_vertical.place_color(0, 'red')
+            won = board_vertical.vertical_win?('red')
+            expect(won).to be true
+          end
+        end
+
+        context 'in any column x2' do
+          it 'returns true' do
+            board_vertical.place_color(3, 'red')
+            board_vertical.place_color(3, 'red')
+            board_vertical.place_color(3, 'red')
+            board_vertical.place_color(3, 'red')
+            won = board_vertical.vertical_win?('red')
+            expect(won).to be true
+          end
+        end
+      end
+    end
+
+    context 'when column has red & black markers' do
+      context 'in order rbrrbb' do
+        before do
+          board_vertical.place_color(0, 'red')
+          board_vertical.place_color(0, 'black')
+          board_vertical.place_color(0, 'red')
+          board_vertical.place_color(0, 'red')
+          board_vertical.place_color(0, 'black')
+        end
+
+        it 'red does not win' do
+          won = board_vertical.vertical_win?('red')
+          expect(won).to be false
+        end
+
+        it 'black does not win' do
+          won = board_vertical.vertical_win?('black')
+          expect(won).to be false
+        end
+      end
+
+      context 'in order brbbbb' do
+        before do
+          board_vertical.place_color(6, 'black')
+          board_vertical.place_color(6, 'red')
+          board_vertical.place_color(6, 'black')
+          board_vertical.place_color(6, 'black')
+          board_vertical.place_color(6, 'black')
+          board_vertical.place_color(6, 'black')
+        end
+
+        it 'red does not win' do
+          won = board_vertical.vertical_win?('red')
+          expect(won).to be false
+        end
+
+        it 'black wins' do
+          won = board_vertical.vertical_win?('black')
+          expect(won).to be true
+        end
+      end
+    end
+  end
 end

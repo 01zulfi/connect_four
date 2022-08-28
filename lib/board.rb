@@ -29,6 +29,14 @@ class Board
     won
   end
 
+  def vertical_win?(color)
+    won = false
+    board.transpose.each do |row|
+      won = true if row.each_cons(4).any? { |fours| same_color?(fours, color) }
+    end
+    won
+  end
+
   private
 
   def same_color?(array, color)
