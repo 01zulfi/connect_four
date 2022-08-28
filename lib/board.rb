@@ -36,6 +36,12 @@ class Board
     won
   end
 
+  def diagonal_win?(color)
+    won = false
+    won = true if diagonals_length_four(board).any? { |four| same_color?(four, color) }
+    won
+  end
+
   private
 
   def same_color?(array, color)

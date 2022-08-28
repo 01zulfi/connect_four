@@ -67,4 +67,30 @@ describe ArrayHelpers do
       end
     end
   end
+
+  describe '#diagonals' do
+    context 'when nested array is given' do
+      subject(:dummy_class) { Class.new { extend ArrayHelpers } }
+
+      it 'returns all diagonals' do
+        array = [[1, 2, 3], [5, 6, 7], [9, 10, 11]]
+        expect(dummy_class.diagonals(array)).to match_array([[1], [2, 5], [3, 6, 9], [7, 10], [11]])
+      end
+    end
+  end
+
+  describe '#diagonals_length_four' do
+    context 'when nested array is given' do
+      subject(:dummy_class) { Class.new { extend ArrayHelpers } }
+
+      it 'returns all fours diagonals' do
+        array = [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, 14, 15], [16, 17, 18, 19, 20],
+                 [21, 22, 23, 24, 25]]
+        expect(dummy_class.diagonals_length_four(array)).to match_array([[4, 8, 12, 16],
+                                                                         [5, 9, 13, 17],
+                                                                         [9, 13, 17, 21],
+                                                                         [10, 14, 18, 22]])
+      end
+    end
+  end
 end

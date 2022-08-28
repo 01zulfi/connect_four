@@ -293,4 +293,125 @@ describe Board do
       end
     end
   end
+
+  describe '#diagonal_win?' do
+    subject(:board_diagonal) { described_class.new }
+
+    context 'when no move is played' do
+      it 'red does not win' do
+        won = board_diagonal.diagonal_win?('red')
+        expect(won).to be false
+      end
+
+      it 'black does not win' do
+        won = board_diagonal.diagonal_win?('black')
+        expect(won).to be false
+      end
+    end
+
+    context 'when diagonal has only red (or black) markers' do
+      context 'when red has three or less consecutive markers' do
+        context 'in any diagonal' do
+          it 'returns false' do
+            board_diagonal.place_color(0, 'red')
+            board_diagonal.place_color(1, 'black')
+            board_diagonal.place_color(1, 'red')
+            board_diagonal.place_color(2, 'black')
+            board_diagonal.place_color(2, 'black')
+            board_diagonal.place_color(2, 'red')
+            won = board_diagonal.diagonal_win?('red')
+            expect(won).to be false
+          end
+        end
+
+        context 'in any diagonal x2' do
+          it 'returns false' do
+            board_diagonal.place_color(3, 'red')
+            board_diagonal.place_color(4, 'black')
+            board_diagonal.place_color(4, 'red')
+            won = board_diagonal.diagonal_win?('red')
+            expect(won).to be false
+          end
+        end
+      end
+
+      context 'when red has four consecutive markers' do
+        context 'in any diagonal' do
+          it 'returns true' do
+            board_diagonal.place_color(0, 'red')
+            board_diagonal.place_color(1, 'black')
+            board_diagonal.place_color(1, 'red')
+            board_diagonal.place_color(2, 'black')
+            board_diagonal.place_color(2, 'black')
+            board_diagonal.place_color(2, 'red')
+            board_diagonal.place_color(3, 'black')
+            board_diagonal.place_color(3, 'black')
+            board_diagonal.place_color(3, 'black')
+            board_diagonal.place_color(3, 'red')
+            won = board_diagonal.diagonal_win?('red')
+            expect(won).to be true
+          end
+        end
+
+        context 'in any diagonal x2' do
+          it 'returns true' do
+            board_diagonal.place_color(3, 'black')
+            board_diagonal.place_color(3, 'red')
+            board_diagonal.place_color(4, 'black')
+            board_diagonal.place_color(4, 'black')
+            board_diagonal.place_color(4, 'red')
+            board_diagonal.place_color(5, 'black')
+            board_diagonal.place_color(5, 'black')
+            board_diagonal.place_color(5, 'black')
+            board_diagonal.place_color(5, 'red')
+            board_diagonal.place_color(6, 'black')
+            board_diagonal.place_color(6, 'black')
+            board_diagonal.place_color(6, 'black')
+            board_diagonal.place_color(6, 'black')
+            board_diagonal.place_color(6, 'red')
+            won = board_diagonal.diagonal_win?('red')
+            expect(won).to be true
+          end
+        end
+      end
+    end
+
+    context 'when diagonal has red & black markers' do
+      context 'in order rbrrrr' do
+        before do
+          board_diagonal.place_color(0, 'red')
+          board_diagonal.place_color(1, 'black')
+          board_diagonal.place_color(1, 'black')
+          board_diagonal.place_color(2, 'red')
+          board_diagonal.place_color(2, 'red')
+          board_diagonal.place_color(2, 'red')
+          board_diagonal.place_color(3, 'red')
+          board_diagonal.place_color(3, 'red')
+          board_diagonal.place_color(3, 'red')
+          board_diagonal.place_color(3, 'red')
+          board_diagonal.place_color(4, 'red')
+          board_diagonal.place_color(4, 'red')
+          board_diagonal.place_color(4, 'red')
+          board_diagonal.place_color(4, 'red')
+          board_diagonal.place_color(4, 'red')
+          board_diagonal.place_color(5, 'red')
+          board_diagonal.place_color(5, 'red')
+          board_diagonal.place_color(5, 'red')
+          board_diagonal.place_color(5, 'red')
+          board_diagonal.place_color(5, 'red')
+          board_diagonal.place_color(5, 'red')
+        end
+
+        it 'red wins' do
+          won = board_diagonal.diagonal_win?('red')
+          expect(won).to be true
+        end
+
+        it 'black does not win' do
+          won = board_diagonal.diagonal_win?('black')
+          expect(won).to be false
+        end
+      end
+    end
+  end
 end
