@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
 require 'pry-byebug'
+require_relative 'array_helpers'
 
 # board
 class Board
+  include ArrayHelpers
+
   attr_reader :board
 
   def initialize(board = create_board)
@@ -23,17 +26,13 @@ class Board
 
   def horizontal_win?(color)
     won = false
-    board.each do |row|
-      won = true if row.each_cons(4).any? { |fours| same_color?(fours, color) }
-    end
+    won = true if rows_length_four(board).any? { |fours| same_color?(fours, color) }
     won
   end
 
   def vertical_win?(color)
     won = false
-    board.transpose.each do |row|
-      won = true if row.each_cons(4).any? { |fours| same_color?(fours, color) }
-    end
+    won = true if columns_length_four(board).any? { |fours| same_color?(fours, color) }
     won
   end
 
