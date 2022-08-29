@@ -84,12 +84,13 @@ describe ArrayHelpers do
       subject(:dummy_class) { Class.new { extend ArrayHelpers } }
 
       it 'returns all fours diagonals' do
-        array = [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, 14, 15], [16, 17, 18, 19, 20],
+        array = [[1, 2, 3, 4, 5],
+                 [6, 7, 8, 9, 10],
+                 [11, 12, 13, 14, 15],
+                 [16, 17, 18, 19, 20],
                  [21, 22, 23, 24, 25]]
-        expect(dummy_class.diagonals_length_four(array)).to match_array([[4, 8, 12, 16],
-                                                                         [5, 9, 13, 17],
-                                                                         [9, 13, 17, 21],
-                                                                         [10, 14, 18, 22]])
+        expect(dummy_class.diagonals_length_four(array)).to match_array([[4, 8, 12, 16], [5, 9, 13, 17],
+                                                                         [9, 13, 17, 21], [10, 14, 18, 22], [24, 18, 12, 6], [25, 19, 13, 7], [19, 13, 7, 1], [20, 14, 8, 2]])
       end
     end
   end

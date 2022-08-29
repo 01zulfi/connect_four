@@ -21,7 +21,7 @@ module ArrayHelpers
   end
 
   def diagonals_length_four(nested_array)
-    d = diagonals(nested_array)
+    d = diagonals(nested_array) + diagonals(nested_array.reverse)
 
     fours_or_more = d.filter { |e| e.size >= 4 }
 
