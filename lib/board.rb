@@ -46,6 +46,10 @@ class Board
     won
   end
 
+  def full?
+    board.flatten.none?(&:nil?)
+  end
+
   private
 
   def same_color?(array, color)

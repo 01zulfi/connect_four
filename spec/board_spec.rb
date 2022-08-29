@@ -463,4 +463,32 @@ describe Board do
       end
     end
   end
+
+  describe '#full?' do
+    context 'when board is filled with markers' do
+      board = [%w[red black], %w[black red]]
+      subject(:board_full) { described_class.new(board) }
+
+      it 'returns true' do
+        expect(board_full).to be_full
+      end
+    end
+
+    context 'when board is not filled with markers' do
+      subject(:board_empty) { described_class.new }
+
+      it 'retrns false' do
+        expect(board_empty).to_not be_full
+      end
+    end
+
+    context 'when board is partially filled with markers' do
+      board = [['red', nil], [nil, 'red']]
+      subject(:board_partial) { described_class.new(board) }
+
+      it 'returns false' do
+        expect(board_partial).to_not be_full
+      end
+    end
+  end
 end
