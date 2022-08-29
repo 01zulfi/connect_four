@@ -20,7 +20,6 @@ class Game
     play_round until game_over?
     display_board
     announce_result
-    restart
   end
 
   def announce_result
